@@ -3,6 +3,8 @@
 PRJ_DIR := prj_dir
 ## Replace with a customer-specific PRJ name
 PRJ_NAME := prj_name
+## Update with any Restricsions, "SENSITIVE-" | "CONFIDENTIAL-" | "ITAR-" | "EAR-"
+PRJ_RESTRICTIONS :=
 
 # virtualenv settings
 ENV := env
@@ -280,16 +282,16 @@ live: .prj_dir-exists .git-no-changes reqcheck excel-export doc
 .PHONY: zips
 zips: .git-no-changes reqcheck excel-export doc
 	mkdir -p zips
-	zip -rv zips/$(PRJ_NAME)-Specs-$(BRANCH)-$(VERSION).zip docs -i *.html
-	zip -v zips/$(PRJ_NAME)-Specs-$(BRANCH)-$(VERSION).zip xlsx/* -i *.xlsx
-	zip -rv zips/$(PRJ_NAME)-Design-$(BRANCH)-$(VERSION).zip design
-	zip -rv zips/$(PRJ_NAME)-Tests-$(BRANCH)-$(VERSION).zip tests
-	zip -rv zips/$(PRJ_NAME)-Reviews-$(BRANCH)-$(VERSION).zip reviews
+	zip -rv zips/$(PRJ_RESTRICTIONS)$(PRJ_NAME)-Specs-$(BRANCH)-$(VERSION).zip docs -i *.html
+	zip -v zips/$(PRJ_RESTRICTIONS)$(PRJ_NAME)-Specs-$(BRANCH)-$(VERSION).zip xlsx/* -i *.xlsx
+	zip -rv zips/$(PRJ_RESTRICTIONS)$(PRJ_NAME)-Design-$(BRANCH)-$(VERSION).zip design
+	zip -rv zips/$(PRJ_RESTRICTIONS)$(PRJ_NAME)-Tests-$(BRANCH)-$(VERSION).zip tests
+	zip -rv zips/$(PRJ_RESTRICTIONS)$(PRJ_NAME)-Reviews-$(BRANCH)-$(VERSION).zip reviews
 
 .PHONY: archive
 archive: .git-no-changes
 	mkdir -p zips
-	git archive --format zip --output zips/$(PRJ_NAME)-Repo-$(BRANCH)-$(VERSION)-$(HASH8).zip $(BRANCH)
+	git archive --format zip --output zips/$(PRJ_RESTRICTIONS)$(PRJ_NAME)-Repo-$(BRANCH)-$(VERSION)-$(HASH8).zip $(BRANCH)
 
 .PHONY: release
 release: zips archive
